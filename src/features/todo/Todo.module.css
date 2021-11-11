@@ -36,6 +36,16 @@
   transition: all 0.15s;
 }
 
+.buttonContainer {
+  margin-bottom: 8px;
+}
+
+.buttonRow {
+  display: flex;
+  flex-direction: column;
+  margin: 12px;
+}
+
 .textbox {
   font-size: 32px;
   padding: 2px;
