@@ -29,3 +29,8 @@ Tasks:
    /add-todo is a POST and takes a payload as follows: {"todo": string}
    Are there any things you would change given that we now want multiple endpoints?
    Again consider where you are storing data in this process.
+
+4. Up to this point, the TODO list has probably been one single React component.
+   As a last consideration, we will want to use the TODO data in multiple components.
+   Suppose we want a right hand panel that shows a count of the number of TODOs. Given 
+   this enhancement, is there anything you would do differently from the implementation in step 3?

@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   add,
   remove,
-  randomData,
   selectItems,
-  selectState,
 } from './todoSlice';
 import styles from './Todo.module.css';
 
@@ -14,13 +12,6 @@ export function Todo() {
   const items = useSelector(selectItems);
   const dispatch = useDispatch();
   const [currentItemText, setCurrentItemText] = useState('');
-
-
-  const state = useSelector(selectState);
-
-  useEffect(() => {
-    dispatch(randomData())
-  }, [dispatch]);
 
   const createRandomTodo = () => {
     setCurrentItemText('');
@@ -33,11 +24,29 @@ export function Todo() {
     setCurrentItemText(currentItemText + randomThings[randomIndex]);
   }
 
+  const clearCurrentInput = () => {
+    setCurrentItemText('');
+  }
+
+  const onChangeItemText = (value) => {
+    setCurrentItemText(value);
+  };
+
+  const addItem = () => {
+    dispatch(add(currentItemText));
+    clearCurrentInput();
+  };
+
+  const removeItem = () => {
+    dispatch(remove());
+    clearCurrentInput();
+  };
+
   return (
     <div>
       <div className={styles.row}>
         <div>
-          <input onChange={e => setCurrentItemText(e.target.value)} value={currentItemText}>
+          <input onChange={e => onChangeItemText(e.target.value)} value={currentItemText}>
           </input>
         </div>
         <div>
@@ -48,14 +57,14 @@ export function Todo() {
         <div className={styles.buttonRow}>
           <div className={styles.buttonContainer}>
             <button
-              onClick={() => dispatch(add(currentItemText))}
+              onClick={() => addItem()}
             >
               Add
             </button>
           </div>
           <div className={styles.buttonContainer}>
             <button
-              onClick={() => dispatch(remove())}
+              onClick={() => removeItem()}
             >
               Remove
             </button>

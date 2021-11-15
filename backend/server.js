@@ -6,6 +6,13 @@ app.use(bodyParser.json({ type: '*/*' }));
 const randomTodos = ['Make breakfast', 'Write some code', 'Apply to MaetroQA'];
 const localTodos = [];
 
+function shouldFail() {
+    if (Math.random() <= 0.2) {
+        return true;
+    }
+    return false;
+}
+
 app.get('/get-random-todo', (_, res) => {
     const randomIndex = Math.floor(Math.random() * randomTodos.length);
     const todo = randomTodos[randomIndex];
@@ -15,12 +22,23 @@ app.get('/get-random-todo', (_, res) => {
 });
 
 app.post('/add-todo', (req, res) => {
+    if (shouldFail()) {
+        res.sendStatus(503);
+    }
+
     const item = req.body.todo;
-    localTodos.push(item);
-    res.sendStatus(200);
+    const randomTimeoutAmount = Math.random() * 5000;
+    setTimeout(() => {
+        localTodos.push(item);
+        res.sendStatus(200);
+    }, randomTimeoutAmount);
 });
 
 app.get('/get-todos', (_, res) => {
+    if (shouldFail()) {
+        res.sendStatus(503);
+    }
+
     res.json({
         todos: localTodos,
     });
