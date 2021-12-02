@@ -1,17 +1,11 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  add,
-  remove,
-  selectItems,
-} from './todoSlice';
 import styles from './Todo.module.css';
 
 
 export function Todo() {
-  const items = useSelector(selectItems);
-  const dispatch = useDispatch();
   const [currentItemText, setCurrentItemText] = useState('');
+
+  const [items, setItems] = useState([]);
 
   const createRandomTodo = () => {
     setCurrentItemText('');
@@ -33,13 +27,13 @@ export function Todo() {
   };
 
   const addItem = () => {
-    dispatch(add(currentItemText));
+    setItems([...items, currentItemText]);
     clearCurrentInput();
   };
 
   const removeItem = () => {
-    dispatch(remove());
-    clearCurrentInput();
+    const numItems = items.length;
+    setItems(items.filter((_, index) => index !== numItems - 1));
   };
 
   return (
@@ -73,7 +67,7 @@ export function Todo() {
             <button
               onClick={() => createRandomTodo()}
             >
-              Add Random TODO
+              Create Random TODO
             </button>
           </div>
         </div>

@@ -9,10 +9,10 @@ export const todoSlice = createSlice({
   initialState,
   reducers: {
     add: (state, action) => {
-      state.listItems.push(action.payload);
+      
     },
     remove: (state) => {
-      state.listItems.pop();
+      
     },
   },
 });
