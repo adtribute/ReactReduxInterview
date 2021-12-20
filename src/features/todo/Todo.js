@@ -40,27 +40,22 @@ export function Todo() {
     <div>
       <div className={styles.row}>
         <div>
-          <input onChange={e => onChangeItemText(e.target.value)} value={currentItemText}>
+          <input className={styles.todoInput} onChange={e => onChangeItemText(e.target.value)} placeholder="Enter TODO" value={currentItemText}>
           </input>
-        </div>
-        <div>
-          <ul>
-            {items.map((item) => <p key={`${Math.random()}-${item}`}>{item}</p>)}
-          </ul>
         </div>
         <div className={styles.buttonRow}>
           <div className={styles.buttonContainer}>
             <button
               onClick={() => addItem()}
             >
-              Add
+              Add TODO
             </button>
           </div>
           <div className={styles.buttonContainer}>
             <button
               onClick={() => removeItem()}
             >
-              Remove
+              Remove Last TODO
             </button>
           </div>
           <div className={styles.buttonContainer}>
@@ -70,6 +65,15 @@ export function Todo() {
               Create Random TODO
             </button>
           </div>
+        </div>
+        <div className={styles.todoListContainer}>
+          <ul>
+            {items.map((item) => (
+              <div className={styles.todoListItem}>
+                <p className={styles.todoListItemText} key={`${Math.random()}-${item}`}>{item}</p>
+              </div>
+            ))}
+          </ul>
         </div>
       </div>
     </div>
