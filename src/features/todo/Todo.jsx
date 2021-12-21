@@ -1,22 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './Todo.module.css';
-
+import { Greeting } from '../greeting/Greeting.jsx';
+import {
+  addTodoAction,
+  removeTodoAction,
+  getTodosAction,
+} from './todoSlice';
+import { selectItems, selectState } from '../../common/selectors';
+import { getRandomTodo as fetchRandomTodo } from './todoAPI';
 
 export function Todo() {
   const [currentItemText, setCurrentItemText] = useState('');
 
-  const [items, setItems] = useState([]);
+  useEffect(() => {
+    dispatch(getTodosAction());
+  }, []);
 
-  const createRandomTodo = () => {
-    setCurrentItemText('');
-    const randomActions = ['Make', 'Create', 'Process'];
-    const randomAmount = ['Two', 'Seven', 'So Many'];
-    const randomThings = ['Bagels', 'Pies', 'Paintings'];
-    const randomIndex = Math.floor(Math.random() * 3);
-    setCurrentItemText(currentItemText + randomActions[randomIndex] + ' ');
-    setCurrentItemText(currentItemText + randomAmount[randomIndex] + ' ');
-    setCurrentItemText(currentItemText + randomThings[randomIndex]);
-  }
+  const items = useSelector(selectItems);
+  const dispatch = useDispatch();
 
   const clearCurrentInput = () => {
     setCurrentItemText('');
@@ -27,17 +29,22 @@ export function Todo() {
   };
 
   const addItem = () => {
-    setItems([...items, currentItemText]);
+    dispatch(addTodoAction(currentItemText));
     clearCurrentInput();
   };
 
   const removeItem = () => {
-    const numItems = items.length;
-    setItems(items.filter((_, index) => index !== numItems - 1));
+    dispatch(removeTodoAction());
   };
+
+  const getRandomTodo = async () => {
+    const { todo } = await fetchRandomTodo();
+    setCurrentItemText(todo);
+  }
 
   return (
     <div>
+      <Greeting/>
       <div className={styles.row}>
         <div>
           <input className={styles.todoInput} onChange={e => onChangeItemText(e.target.value)} placeholder="Enter TODO" value={currentItemText}>
@@ -60,7 +67,7 @@ export function Todo() {
           </div>
           <div className={styles.buttonContainer}>
             <button
-              onClick={() => createRandomTodo()}
+              onClick={() => getRandomTodo()}
             >
               Create Random TODO
             </button>

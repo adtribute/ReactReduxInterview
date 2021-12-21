@@ -1,5 +1,5 @@
 import React from 'react';
-import { Todo } from './features/todo/Todo';
+import { Todo } from './features/todo/Todo.jsx';
 import './App.css';
 
 function App() {
