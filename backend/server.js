@@ -59,6 +59,7 @@ app.get('/get-todos', (_, res) => {
 app.get('/remove-todo', (_, res) => {
     if (shouldFail()) {
         res.sendStatus(503);
+        return;
     }
     localTodos.pop();
     res.json({
